@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "画像タブダウンローダ",
+    "version": "0.1",
+    "author": "Tachibana446",
+    "description": "開いてる画像タブをまとめて保存します",
+    "browser_action": {
+        "default_icon": {
+            "38": "icon_38.png"
+        },
+        "default_title": "画像をダウンロード！"
+    },
+    "permissions": ["tabs", "downloads", "http://*/*", "https://*/*"],
+    "background": {
+        "scripts": ["background.js"]
+    }
+}
