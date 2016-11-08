@@ -7,4 +7,7 @@ $(function() {
     $("#downloadPictures").click(function() {
         BG.downloadPictures();
     });
+    $("#downloadPictures2").click(function() {
+        BG.downloadPictures(true);
+    });
 });

@@ -44,7 +44,7 @@ function checkPicture(url) {
 }
 
 // 現在のウィンドウの画像タブをすべて保存
-var downloadPictures = function() {
+var downloadPictures = function(closeTab) {
     // tabsプロパティを含むオプション
     var option = {
         populate: true
@@ -57,7 +57,9 @@ var downloadPictures = function() {
                 url: tab.url,
                 conflictAction: chrome.downloads.FilenameConflictAction.uniquify
             };
-            chrome.downloads.download(params, null);
+            chrome.downloads.download(params, function(dlid) {
+                if (closeTab) chrome.tabs.remove(tab.id, null);
+            });
         }
     });
 };
