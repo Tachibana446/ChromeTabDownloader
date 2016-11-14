@@ -13,6 +13,7 @@
     },
     "permissions": ["tabs", "downloads", "http://*/*", "https://*/*"],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["background.js"],
+        "presistent": false
     }
 }
