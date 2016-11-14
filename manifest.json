@@ -11,9 +11,14 @@
         "default_title": "ダウンロード！",
         "default_popup": "popup.html"
     },
-    "permissions": ["tabs", "downloads", "http://*/*", "https://*/*"],
+    "permissions": ["tabs", "downloads", "storage", "http://*/*", "https://*/*"],
     "background": {
         "scripts": ["background.js"],
         "presistent": false
-    }
+    },
+    "content_scripts": [{
+        "matches": ["https://www.google.co.jp/*", "http://www.xtube.com/video-watch/*"],
+        "css": ["xVisit/content.css"],
+        "js": ["jquery.min.js", "xVisit/content.js"]
+    }]
 }

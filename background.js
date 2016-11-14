@@ -18,3 +18,30 @@ var downloadAllWindowPictures = function() {
         }
     });
 };
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, callback) {
+        switch (request.type) {
+            case "visit":
+                chrome.tabs.getSelected(null, function(tab) {
+                    var url = tab.url;
+                    chrome.storage.local.get("visits", function(value) {
+                        var visits = value.visits;
+                        // DEBUG
+                        console.log("visits load");
+                        console.table(visits);
+
+                        if (visits && Object.keys(visits).length != 0 && visits.indexOf(url) != -1) {
+                            console.log("true");
+                            callback("visited");
+                        } else {
+                            callback("non visited");
+                        }
+                    });
+                });
+                return true;
+                break;
+            default:
+        }
+    }
+);

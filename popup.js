@@ -73,4 +73,30 @@ $(function() {
         console.log("click 2");
         downloadPictures(true);
     });
+    $("#debug").click(function() {
+        chrome.storage.local.set({
+            key: "key"
+        }, function() {
+            chrome.storage.local.get("key", function(value) {
+                console.table(value);
+            });
+        });
+    });
+    $("#visit").click(function() {
+        chrome.storage.local.get("visits", function(visits) {
+            chrome.tabs.getSelected(null, function(tab) {
+                if (!visits || Object.keys(visits).length === 0) {
+                    visits = [tab.url];
+                } else if (visits.indexOf(tab.url) != 1) {
+                    visits.push(tab.url);
+                }
+                chrome.storage.local.set({
+                    visits: visits
+                }, function() {});
+
+                // DEBUG
+                console.table(visits);
+            });
+        });
+    });
 });

@@ -5,12 +5,12 @@
 button {
     text-align: center;
     font-size: 13px;
-    display: block;
     background: #EEE;
     border: 3px solid #DDD;
     color: #111;
     width: auto;
     padding: 10px 5px;
+    margin: 3px 0px;
 }
 
 button:hover {
