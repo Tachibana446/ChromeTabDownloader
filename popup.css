@@ -1,0 +1,24 @@
+#main {
+    width: 300px;
+}
+
+button {
+    text-align: center;
+    font-size: 13px;
+    display: block;
+    background: #EEE;
+    border: 3px solid #DDD;
+    color: #111;
+    width: auto;
+    padding: 10px 5px;
+}
+
+button:hover {
+    background: #a4cedd;
+    border-color: #43555b;
+}
+
+button:active {
+    background-color: #DDD;
+    border-color: #EEE;
+}
