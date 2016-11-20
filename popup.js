@@ -62,17 +62,17 @@ function downloadPictures(closeTab) {
     });
 }
 
-chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-    switch (message.type) {
-        case "mainPicture":
-            chrome.tabs.create({
-                url: message.url
-            }, null);
-            break;
-        default:
 
-    }
-});
+function injectScript(tabId) {
+    chrome.tabs.executeScript(tabId, {
+            file: "jquery.min.js"
+        },
+        function() {
+            chrome.tabs.executeScript(tabId, {
+                file: "getMainPicture.js"
+            }, function(result) {});
+        });
+}
 
 function showMainPicture(option) {
     var o = {
@@ -91,14 +91,7 @@ function showMainPicture(option) {
                 if ((option == "left" && tab.index <= selectedIndex) ||
                     (option == "right" && tab.index >= selectedIndex)) {
                     var id = tab.id;
-                    chrome.tabs.executeScript(id, {
-                            file: "jquery.min.js"
-                        },
-                        function() {
-                            chrome.tabs.executeScript(id, {
-                                file: "getMainPicture.js"
-                            }, function(result) {});
-                        });
+                    injectScript(id);
                 }
             }
         });

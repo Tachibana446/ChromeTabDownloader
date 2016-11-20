@@ -41,6 +41,11 @@ chrome.runtime.onMessage.addListener(
                 });
                 return true;
                 break;
+            case "mainPicture":
+                chrome.tabs.create({
+                    url: request.url
+                }, null);
+                break;
             default:
         }
     }
