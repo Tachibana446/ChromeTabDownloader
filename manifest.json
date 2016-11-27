@@ -17,7 +17,7 @@
         "presistent": false
     },
     "content_scripts": [{
-        "matches": ["https://www.google.co.jp/*", "http://www.xtube.com/video-watch/*"],
+        "matches": ["https://www.google.co.jp/*", "http://www.xtube.com/*"],
         "css": ["xVisit/content.css"],
         "js": ["jquery.min.js", "xVisit/content.js"]
     }]

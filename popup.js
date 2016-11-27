@@ -98,6 +98,31 @@ function showMainPicture(option) {
     });
 }
 
+function makeAdLink(includeTitle) {
+    chrome.tabs.getSelected(null, function(tab) {
+        var aid = "namekatei";
+        console.log("getSelected----");
+        console.table(tab);
+        var url = tab.url;
+        var title = tab.title;
+
+        var reg = /(.*)work\/.*product_id\/(.*)/;
+        var arr = reg.exec(url);
+        var top = arr[1];
+        var id = arr[2];
+        var newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
+
+        var result = newUrl;
+        if (includeTitle) result = title + "\n" + newUrl;
+
+        var textarea = $("#clipboard");
+        console.table(textarea);
+        textarea.text(result);
+        textarea.select();
+        document.execCommand("copy");
+    });
+}
+
 //var BG = chrome.extension.getBackgroundPage();
 
 $(function() {
@@ -118,19 +143,17 @@ $(function() {
         });
     });
     $("#visit").click(function() {
-        chrome.storage.local.get("visits", function(visits) {
+        chrome.storage.local.get("visits", function(data) {
             chrome.tabs.getSelected(null, function(tab) {
-                if (!visits || Object.keys(visits).length === 0) {
-                    visits = [tab.url];
-                } else if (visits.indexOf(tab.url) != 1) {
-                    visits.push(tab.url);
+                if (!data || Object.keys(data).length === 0) {
+                    data.visits = [tab.url];
+                } else if (data.visits.indexOf(tab.url) != 1) {
+                    data.visits.push(tab.url);
                 }
                 chrome.storage.local.set({
-                    visits: visits
+                    visits: data.visits
                 }, function() {});
 
-                // DEBUG
-                console.table(visits);
             });
         });
     });
@@ -140,4 +163,11 @@ $(function() {
     $("#showImgRight").click(function() {
         showMainPicture("right");
     });
+    $("#makeAdAndTitle").click(function() {
+        makeAdLink(true);
+    });
+    $("#makeAd").click(function() {
+        makeAdLink(false);
+    });
+
 });
