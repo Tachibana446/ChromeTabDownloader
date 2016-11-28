@@ -101,8 +101,6 @@ function showMainPicture(option) {
 function makeAdLink(includeTitle) {
     chrome.tabs.getSelected(null, function(tab) {
         var aid = "namekatei";
-        console.log("getSelected----");
-        console.table(tab);
         var url = tab.url;
         var title = tab.title;
 
@@ -116,8 +114,17 @@ function makeAdLink(includeTitle) {
         if (includeTitle) result = title + "\n" + newUrl;
 
         var textarea = $("#clipboard");
-        console.table(textarea);
         textarea.text(result);
+        textarea.select();
+        document.execCommand("copy");
+    });
+}
+
+function copyTitleAndUrl() {
+    chrome.tabs.getSelected(null, function(tab) {
+        var text = tab.title + "\n" + tab.url;
+        var textarea = $("#clipboard");
+        textarea.text(text);
         textarea.select();
         document.execCommand("copy");
     });
@@ -169,5 +176,7 @@ $(function() {
     $("#makeAd").click(function() {
         makeAdLink(false);
     });
-
+    $("#makeTitleAndUrl").click(function() {
+        copyTitleAndUrl();
+    });
 });
