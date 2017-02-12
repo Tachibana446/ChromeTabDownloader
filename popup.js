@@ -1,10 +1,10 @@
 // debug
 console.log("load popup.js");
 
-function sleep(second) {
+function sleep(ms) {
     var d1 = new Date().getTime();
     var d2 = new Date().getTime();
-    while (d2 < d1 + 1000 * second) {
+    while (d2 < d1 + ms) {
         d2 = new Date().getTime();
     }
 }
@@ -55,9 +55,9 @@ function downloadPictures(closeTab) {
             // DEBUG
             console.table(params);
             chrome.downloads.download(params, null);
+            sleep(100);
             removeTabs.push(tab.id);
         }
-        sleep(1);
         if (closeTab) chrome.tabs.remove(removeTabs, null);
     });
 }
@@ -120,9 +120,11 @@ function makeAdLink(includeTitle) {
     });
 }
 
-function copyTitleAndUrl() {
+function copyTitleAndUrl(mode) {
     chrome.tabs.getSelected(null, function(tab) {
         var text = tab.title + "\n" + tab.url;
+        if (mode === "url") text = tab.url;
+        else if (mode === "title") text = tab.title;
         var textarea = $("#clipboard");
         textarea.text(text);
         textarea.select();
@@ -164,6 +166,15 @@ $(function() {
             });
         });
     });
+    $("#xtubeImg").click(function(){
+      chrome.tabs.executeScript(null,{
+        file: "jquery.min.js"
+      },function(){
+        chrome.tabs.executeScript(null,{
+          file:"xtube/showMainPicture.js"
+        },null)
+      });
+    });
     $("#showImgLeft").click(function() {
         showMainPicture("left");
     });
@@ -178,5 +189,11 @@ $(function() {
     });
     $("#makeTitleAndUrl").click(function() {
         copyTitleAndUrl();
+    });
+    $("#copyTitle").click(function() {
+        copyTitleAndUrl("title");
+    });
+    $("#copyUrl").click(function() {
+        copyTitleAndUrl("url");
     });
 });

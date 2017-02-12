@@ -46,6 +46,17 @@ chrome.runtime.onMessage.addListener(
                     url: request.url
                 }, null);
                 break;
+            case "showPicture":
+                chrome.tabs.create({
+                  url : request.url,
+                  active : false
+                },null);
+                break;
+            case "move":
+              chrome.tabs.update({
+                url : request.url
+              },null);
+              break;
             default:
         }
     }
