@@ -132,7 +132,22 @@ function copyTitleAndUrl(mode) {
     });
 }
 
-//var BG = chrome.extension.getBackgroundPage();
+function createPixivViewTable() {
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.executeScript(tab.id, {
+            file: "jquery.min.js"
+        }, function() {
+            chrome.tabs.executeScript(tab.id, {
+                file: "pixiv/execute.js"
+            }, function() {
+                chrome.tabs.insertCSS(tab.id, {
+                    file: "pixiv/table.css"
+                });
+            });
+        });
+    });
+}
+
 
 $(function() {
     $("#downloadPictures").click(function() {
@@ -166,14 +181,14 @@ $(function() {
             });
         });
     });
-    $("#xtubeImg").click(function(){
-      chrome.tabs.executeScript(null,{
-        file: "jquery.min.js"
-      },function(){
-        chrome.tabs.executeScript(null,{
-          file:"xtube/showMainPicture.js"
-        },null)
-      });
+    $("#xtubeImg").click(function() {
+        chrome.tabs.executeScript(null, {
+            file: "jquery.min.js"
+        }, function() {
+            chrome.tabs.executeScript(null, {
+                file: "xtube/showMainPicture.js"
+            }, null)
+        });
     });
     $("#showImgLeft").click(function() {
         showMainPicture("left");
@@ -195,5 +210,8 @@ $(function() {
     });
     $("#copyUrl").click(function() {
         copyTitleAndUrl("url");
+    });
+    $('#pixivView').click(function() {
+        createPixivViewTable();
     });
 });
