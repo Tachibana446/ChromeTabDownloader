@@ -2,35 +2,35 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="popup.css">
     <script src="jquery.min.js"></script>
+    <link rel="stylesheet" href="/semantic/semantic.min.css">
+    <script src="/semantic/semantic.min.js" charset="utf-8"></script>
     <script src="popup.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
-    <div id="main">
+    <div class="ui segment">
         <form>
-            <button type="button" id="downloadPictures">画像をダウンロード</button>
+            <button type="button" id="downloadPictures" class="ui button">画像をダウンロード</button>
             <br>
-            <button type="button" id="downloadPictures2">画像をダウンロード<br>(タブを閉じる)</button>
-            <br>
-            <button type="button" id="debug">デバッグ</button>
+            <button type="button" id="downloadPictures2" class="ui large button">画像をダウンロード<br>(タブを閉じる)</button>
             <br>
             <h3>xtube</h3>
-            <button type="button" id="visit">閲覧した</button>
-            <button type="button" id="xtubeImg">画像を表示</button>
+            <button type="button" id="visit" class="ui button">閲覧した</button>
+            <button type="button" id="xtubeImg" class="ui button">画像を表示</button>
             <hr>
-            <button type="button" id="showImgLeft">画像を表示（左側）</button>
-            <button type="button" id="showImgRight">画像を表示（右側）</button>
+            <button type="button" id="showImgLeft" class="ui button">画像を表示（左側）</button>
+            <button type="button" id="showImgRight" class="ui button">画像を表示（右側）</button>
             <br>
             <h3>DLsite</h3>
-            <button type="button" id="makeAdAndTitle">タイトル＋リンク作成</button>
-            <button type="button" id="makeAd">リンク作成</button>
+            <button type="button" id="makeAdAndTitle" class="ui button">タイトル＋リンク作成</button>
+            <button type="button" id="makeAd" class="ui button">リンク作成</button>
             <br>
             <hr>
-            <button type="button" id="makeTitleAndUrl">タイトル＋URL</button>
-            <button type="button" id="copyTitle">タイトル</button>
-            <button type="button" id="copyUrl">URL</button>
+            <button type="button" id="makeTitleAndUrl" class="ui button">タイトル＋URL</button>
+            <button type="button" id="copyTitle" class="ui button">タイトル</button>
+            <button type="button" id="copyUrl" class="ui button">URL</button>
             <hr>
             <textarea id="clipboard" rows="1" cols="5"></textarea>
             <br>

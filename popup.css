@@ -1,24 +1,4 @@
-#main {
-    width: 300px;
-}
-
-button {
-    text-align: center;
-    font-size: 13px;
-    background: #EEE;
-    border: 3px solid #DDD;
-    color: #111;
-    width: auto;
-    padding: 10px 5px;
-    margin: 3px 0px;
-}
-
-button:hover {
-    background: #a4cedd;
-    border-color: #43555b;
-}
-
-button:active {
-    background-color: #DDD;
-    border-color: #EEE;
+body{
+  min-width: 600px;
+  margin-left: 10px;
 }
