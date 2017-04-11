@@ -148,6 +148,29 @@ function createPixivViewTable() {
     });
 }
 
+function separateTabs() {
+    chrome.windows.create({}, function(window) {
+        chrome.tabs.getSelected(function(current) {
+            chrome.tabs.getAllInWindow(function(tabs) {
+                var rightTabIds = [];
+                var right = false;
+                for (tab of tabs) {
+                    if (tab.id == current.id) {
+                        right = true;
+                    } else if (right) {
+                        rightTabIds.push(tab.id);
+                    }
+                }
+                console.log(window);
+                console.log(rightTabIds);
+                chrome.tabs.move(rightTabIds, {
+                    windowId: window.id,
+                    index: 0
+                })
+            });
+        });
+    });
+}
 
 $(function() {
     $("#downloadPictures").click(function() {
@@ -156,6 +179,9 @@ $(function() {
     $("#downloadPictures2").click(function() {
         console.log("click 2");
         downloadPictures(true);
+    });
+    $('#separateRight').click(function() {
+        separateTabs();
     });
     $("#debug").click(function() {
         chrome.storage.local.set({
