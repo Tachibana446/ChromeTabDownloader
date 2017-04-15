@@ -48,15 +48,28 @@ chrome.runtime.onMessage.addListener(
                 break;
             case "showPicture":
                 chrome.tabs.create({
-                  url : request.url,
-                  active : false
-                },null);
+                    url: request.url,
+                    active: false
+                }, null);
                 break;
             case "move":
-              chrome.tabs.update({
-                url : request.url
-              },null);
-              break;
+                chrome.tabs.update({
+                    url: request.url
+                }, null);
+                break;
+            // 新しいタブをバックグラウンドで開く
+            case "create":
+                chrome.tabs.create({
+                    url: request.url,
+                    active: false
+                });
+                break;
+            // 現在のタブを閉じる
+            case "close":
+                chrome.tabs.getSelected(selected => {
+                    chrome.tabs.remove(selected.id)
+                })
+                break;
             default:
         }
     }

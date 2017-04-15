@@ -17,8 +17,13 @@
         "presistent": false
     },
     "content_scripts": [{
-        "matches": ["https://www.google.co.jp/*", "http://www.xtube.com/*"],
-        "css": ["xVisit/content.css"],
-        "js": ["jquery.min.js", "xVisit/content.js"]
-    }]
+            "matches": ["https://www.google.co.jp/*", "http://www.xtube.com/*"],
+            "css": ["xVisit/content.css"],
+            "js": ["jquery.min.js", "xVisit/content.js"]
+        },
+        {
+            "matches": ["http://ja.hentai-cosplay.com/image/*/attachment/*/"],
+            "js": ["jquery.min.js", "hcosplay/show_image.js"]
+        }
+    ]
 }
