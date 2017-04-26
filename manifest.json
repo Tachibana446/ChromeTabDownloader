@@ -24,6 +24,10 @@
         {
             "matches": ["http://ja.hentai-cosplay.com/image/*/attachment/*/"],
             "js": ["jquery.min.js", "hcosplay/show_image.js"]
+        },
+        {
+            "matches": ["https://ssl.dlsite.com/home/mypage/affiliate/sales/=/show/*"],
+            "js": ["jquery.min.js", "dlsite/show_sum.js"]
         }
     ]
 }
