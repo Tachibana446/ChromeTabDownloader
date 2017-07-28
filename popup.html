@@ -1,44 +1,55 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="jquery.min.js"></script>
-    <link rel="stylesheet" href="/semantic/semantic.min.css">
-    <script src="/semantic/semantic.min.js" charset="utf-8"></script>
-    <script src="popup.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="popup.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="jquery.min.js"></script>
+  <link rel="stylesheet" href="/semantic/semantic.min.css">
+  <script src="/semantic/semantic.min.js" charset="utf-8"></script>
+  <script src="popup.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
-    <div class="ui segment">
-        <form>
-            <button type="button" id="downloadPictures" class="ui button">画像をダウンロード</button>
-            <button type="button" id="separateRight" class="ui button">右側のタブを分離</button>
-            <br>
-            <button type="button" id="downloadPictures2" class="ui large button">画像をダウンロード<br>(タブを閉じる)</button>
-            <br>
-            <h3>xtube</h3>
-            <button type="button" id="visit" class="ui button">閲覧した</button>
-            <button type="button" id="xtubeImg" class="ui button">画像を表示</button>
-            <hr>
-            <button type="button" id="showImgLeft" class="ui button">画像を表示（左側）</button>
-            <button type="button" id="showImgRight" class="ui button">画像を表示（右側）</button>
-            <br>
-            <h3>DLsite</h3>
-            <button type="button" id="makeAdAndTitle" class="ui button">タイトル＋リンク作成</button>
-            <button type="button" id="makeAd" class="ui button">リンク作成</button>
-            <br>
-            <hr>
-            <button type="button" id="makeTitleAndUrl" class="ui button">タイトル＋URL</button>
-            <button type="button" id="copyTitle" class="ui button">タイトル</button>
-            <button type="button" id="copyUrl" class="ui button">URL</button>
-            <hr>
-            <textarea id="clipboard" rows="1" cols="5"></textarea>
-            <br>
-            <h3 class="ui header">Pixiv</h3><br>
-            <button class="ui button" type="button" id="pixivView">閲覧数</button>
-        </form>
-    </div>
+  <div class="ui segment">
+    <form>
+      <button type="button" id="downloadPictures" class="ui button">画像をダウンロード</button>
+      <button type="button" id="separateRight" class="ui button">右側のタブを分離</button>
+      <br>
+      <button type="button" id="downloadPictures2" class="ui large button">画像をダウンロード<br>(タブを閉じる)</button>
+      <br>
+      <h3>xtube</h3>
+      <button type="button" id="visit" class="ui button">閲覧した</button>
+      <button type="button" id="xtubeImg" class="ui button">画像を表示</button>
+      <hr>
+      <button type="button" id="showImgLeft" class="ui button">画像を表示（左側）</button>
+      <button type="button" id="showImgRight" class="ui button">画像を表示（右側）</button>
+      <br>
+      <h3>DLsite</h3>
+      <button type="button" id="makeAdAndTitle" class="ui button">タイトル＋リンク作成</button>
+      <button type="button" id="makeAd" class="ui button">リンク作成</button>
+      <button type="button" id="makeAdAndTitle_tw" class="ui blue button">タイトル+リンク(Twitter)</button>
+      <br>
+      <div style="margin: 2px;">
+        <button type="button" id="makeThumbS" class="ui button">小</button>
+        <button type="button" id="makeThumbM" class="ui button">中</button>
+        <button type="button" id="makeThumbL" class="ui button">大</button>
+        <button type="button" id="makeTitleOnly" class="ui button">タイトルのみ</button>
+      </div>
+      <br>
+      <hr>
+      <button type="button" id="makeTitleAndUrl" class="ui button">タイトル＋URL</button>
+      <button type="button" id="copyTitle" class="ui button">タイトル</button>
+      <button type="button" id="copyUrl" class="ui button">URL</button>
+      <hr>
+      <textarea id="clipboard" rows="1" cols="5"></textarea>
+      <br>
+      <h3 class="ui header">Pixiv</h3><br>
+      <button class="ui button" type="button" id="pixivView">閲覧数</button>
+      <br>
+      <hr>
+      <button class="ui button" type="button" id="visitLoader">うぷろだ</button>
+    </form>
+  </div>
 </body>
 
 </html>

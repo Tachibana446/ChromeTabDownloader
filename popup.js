@@ -98,9 +98,8 @@ function showMainPicture(option) {
     });
 }
 
-function makeAdLink(includeTitle) {
+function makeAdLink(includeTitle, aid = "namekatei") {
     chrome.tabs.getSelected(null, function(tab) {
-        var aid = "namekatei";
         var url = tab.url;
         var title = tab.title;
 
@@ -118,6 +117,48 @@ function makeAdLink(includeTitle) {
         textarea.select();
         document.execCommand("copy");
     });
+}
+
+// 画像つきAタグを作成する
+function makeAdThumbLink(size = "s", aid = "namekatei") {
+    chrome.tabs.getSelected(null, function(tab) {
+        var url = tab.url;
+        var title = tab.title;
+        var titleWithoutSitename = title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
+        var resultArr = /www\.dlsite\.com\/(.*?)\/work\/.*product_id\/(.*)\.html/.exec(url)
+        // 売り場がmaniaxかbookかなど
+        var type = resultArr[1]
+        var workId = resultArr[2]
+        // 画像を大まかに分けているID　作品IDを1000区切りにしたもの
+        var resultArr2 = /(.*?)(\d+)/.exec(workId)
+        var aboutWorkId = (Math.floor(resultArr2[2] / 1000) + 1) * 1000 + ""
+        if (aboutWorkId.length < 6) aboutWorkId = ('000000' + aboutWorkId).slice(-6)
+
+        var href = "http://www.dlsite.com/" + type + "/dlaf/=/link/work/aid/" + aid + "/id/" + workId + ".html"
+        var subImgSrc = type == "maniax" ? "doujin" : type == "books" ? "books" : "eee"
+        var imageSizeStr = size == "s" ? "mini" : size == "m" ? "sam" : "main"
+        var imgsrc = "//img.dlsite.jp/modpub/images2/work/" + subImgSrc + "/" + resultArr2[1] +
+            aboutWorkId + "/" + workId + "_img_" + imageSizeStr + ".jpg"
+
+        var aTagFull = "<a href=\"" + href + "\" target=\"_blank\"><img itemprop=\"image\" src=\"" + imgsrc + "\" alt=\"" +
+            titleWithoutSitename + "\" title=\"" + titleWithoutSitename + "\" border=\"0\" class=\"target_type\" /></a>"
+        // Copy
+        var textarea = $("#clipboard")
+        textarea.text(aTagFull)
+        textarea.select()
+        document.execCommand("copy")
+    })
+}
+
+// DLsiteの作品タイトルのみをコピー
+function getTitleOnlyFromDlsite() {
+    chrome.tabs.getSelected(null, (tab) => {
+        var title = tab.title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
+        var textarea = $("#clipboard")
+        textarea.text(title)
+        textarea.select()
+        document.execCommand("copy")
+    })
 }
 
 function copyTitleAndUrl(mode) {
@@ -228,6 +269,9 @@ $(function() {
     $("#makeAd").click(function() {
         makeAdLink(false);
     });
+    $('#makeAdAndTitle_tw').click(function() {
+        makeAdLink(true, "nmktw")
+    })
     $("#makeTitleAndUrl").click(function() {
         copyTitleAndUrl();
     });
@@ -240,4 +284,20 @@ $(function() {
     $('#pixivView').click(function() {
         createPixivViewTable();
     });
+    $('#makeThumbS').click(() => {
+        makeAdThumbLink("s")
+    })
+    $('#makeThumbM').click(() => {
+        makeAdThumbLink("m")
+    })
+    $('#makeThumbL').click(() => {
+        makeAdThumbLink("l")
+    })
+    $('#makeTitleOnly').click(() => getTitleOnlyFromDlsite())
+
+    $('#visitLoader').click(() => {
+        chrome.tabs.create({
+            url: "./CM3D2loader/top.html"
+        })
+    })
 });
