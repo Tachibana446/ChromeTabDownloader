@@ -312,4 +312,7 @@ $(function() {
             url: "./CM3D2loader/top.html"
         })
     })
+    $('#otherMenu').click(() => chrome.tabs.create({
+        url: "./SubMenu/index.html"
+    }))
 });
