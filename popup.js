@@ -63,6 +63,16 @@ function downloadPictures(closeTab) {
 }
 
 
+function injectMyScript(file) {
+    chrome.tabs.executeScript(null, {
+        file: 'jquery.min.js'
+    }, () => {
+        chrome.tabs.executeScript(null, {
+            file: file
+        })
+    })
+}
+
 function injectScript(tabId) {
     chrome.tabs.executeScript(tabId, {
             file: "jquery.min.js"
@@ -294,6 +304,8 @@ $(function() {
         makeAdThumbLink("l")
     })
     $('#makeTitleOnly').click(() => getTitleOnlyFromDlsite())
+
+    $('#makeChobits').click(() => injectMyScript('dlsite/make_ad.js'))
 
     $('#visitLoader').click(() => {
         chrome.tabs.create({
