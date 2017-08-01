@@ -223,6 +223,17 @@ function separateTabs() {
     });
 }
 
+// 画像リストを出す
+function createImageList() {
+    chrome.tabs.executeScript(null, {
+        file: 'jquery.min.js'
+    }, (result) => chrome.tabs.executeScript(null, {
+        file: 'ImageList/inject.js'
+    }, (result) => chrome.tabs.insertCSS(null, {
+        file: 'ImageList/inject.css'
+    }, null)))
+}
+
 $(function() {
     $("#downloadPictures").click(function() {
         downloadPictures(false);
@@ -315,4 +326,5 @@ $(function() {
     $('#otherMenu').click(() => chrome.tabs.create({
         url: "./SubMenu/index.html"
     }))
+    $('#imageList').click(() => createImageList())
 });

@@ -29,8 +29,6 @@ function ehDownload(_url) {
         file: 'SubMenu/ehDownloadExecute.js'
     })))
 
-    // このチェックボックスで中止したかったが無理そう？
-    //var state = $('#eh_checkbox').hasClass('checked')
 }
 
 // EH受け取り

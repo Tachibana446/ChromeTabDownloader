@@ -1,0 +1,44 @@
+img.nmk_thumb {
+    min-width: 100px;
+    width: 12.5%;
+    z-index: 100;
+}
+
+.nmk_image_list div.popup {
+    position: fixed;
+    display: table-cell;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+    z-index: 101;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.nmk_image_list .popup .nav {
+  position: absolute;
+  display: inline;
+  width: 20px;
+  height: 100%;
+  line-height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.nmk_image_list .popup .prev {
+  left: 0;
+}
+
+.nmk_image_list .popup .next {
+    right: 0;
+}
+
+.nmk_image_list div.popup img {
+    display: inline;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    vertical-align: middle;
+}
