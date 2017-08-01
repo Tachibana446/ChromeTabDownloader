@@ -44,7 +44,7 @@ function downloadPictures(closeTab) {
         for (var tab of window.tabs) {
             // DEBUG
             console.table(tab);
-            if (!checkPicture(tab.url)) {
+            if (!checkPicture(tab.url.replace(/\?.*$/, ''))) {
                 continue;
             }
             // 名前がかぶったら番号を振る
