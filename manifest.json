@@ -28,6 +28,10 @@
         {
             "matches": ["https://ssl.dlsite.com/home/mypage/affiliate/sales/=/show/*"],
             "js": ["jquery.min.js", "dlsite/show_sum.js"]
+        },
+        {
+            "matches": ["*://cos-player.xyz/cosplayer/*"],
+            "js": ["jquery.min.js", "SiteExecute/cos-player.xyz.js"]
         }
     ]
 }
