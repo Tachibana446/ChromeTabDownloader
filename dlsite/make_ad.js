@@ -32,7 +32,7 @@ function getAtag(url, title) {
     if (aboutWorkId.length < 6) aboutWorkId = ('000000' + aboutWorkId).slice(-6)
 
     var href = "http://www.dlsite.com/" + type + "/dlaf/=/link/work/aid/" + aid + "/id/" + workId + ".html"
-    var subImgSrc = type == "maniax" ? "doujin" : type == "books" ? "books" : "eee"
+    var subImgSrc = type == "maniax" || type == "home" ? "doujin" : type == "books" ? "books" : "eeerrorrrr"
     var imageSizeStr = "main"
     var imgsrc = "//img.dlsite.jp/modpub/images2/work/" + subImgSrc + "/" + resultArr2[1] +
         aboutWorkId + "/" + workId + "_img_" + imageSizeStr + ".jpg"

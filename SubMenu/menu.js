@@ -74,9 +74,23 @@ chrome.runtime.onMessage.addListener(
     }
 )
 
+// 空白で区切りリンクにしてリストにする
+function makeTagLinks() {
+    var output = '<ul>'
+    for (tag of $('#tag_links > textarea.input').val().split('\n')) {
+        output += '\n<li><a href="http://nameka-tei.blog.jp/tag/' + tag.trim() + '" >' + tag.trim() + '</a></li>'
+    }
+    output += '\n</ul>\n'
+    $('#tag_links > textarea.output').val(output)
+}
+
 $(() => {
     // semantic
     $('.ui.checkbox').checkbox()
 
     $('#eh_ok_button').click(() => ehCheckTextBox())
+
+    $('#str_count > button').click(() => $('#str_count > p').text($('#str_count>textarea').val().replace(/(\s|\n)+/g, "").length))
+
+    $('#tag_links > button').click(() => makeTagLinks())
 })

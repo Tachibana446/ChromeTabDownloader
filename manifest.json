@@ -31,7 +31,8 @@
         },
         {
             "matches": ["*://cos-player.xyz/cosplayer/*"],
-            "js": ["jquery.min.js", "SiteExecute/cos-player.xyz.js"]
+            "js": ["jquery.min.js", "ImageList/inject.js", "SiteExecute/cos-player.xyz.js"],
+            "css": ["ImageList/inject.css"]
         }
     ]
 }

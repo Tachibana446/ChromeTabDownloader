@@ -113,20 +113,50 @@ function makeAdLink(includeTitle, aid = "namekatei") {
         var url = tab.url;
         var title = tab.title;
 
-        var reg = /(.*)work\/.*product_id\/(.*)/;
-        var arr = reg.exec(url);
-        var top = arr[1];
-        var id = arr[2];
-        var newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
+        // サークルプロフィールページの時
+        if (/https?:\/\/www.dlsite.com\/.*?\/circle\/profile\/=\/maker_id\/.*/.test(url)) {
+            var linkUrl = url.replace(/\?.*$/, "")
+            var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+            linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
+            linkUrl = encodeURIComponent(linkUrl)
 
-        var result = newUrl;
-        if (includeTitle) result = title + "\n" + newUrl;
+            var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+            if(includeTitle) result = title + "\n" + result
+            copyToClipboard(result)
+        } else if(/(.*)work\/.*product_id\/(.*)/.test(url)){
+            // 作品ページの時
+            var reg = /(.*)work\/.*product_id\/(.*)/;
+            var arr = reg.exec(url);
+            var top = arr[1];
+            var id = arr[2];
+            var newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
 
-        var textarea = $("#clipboard");
-        textarea.text(result);
-        textarea.select();
-        document.execCommand("copy");
+            var result = newUrl;
+            if (includeTitle) result = title + "\n" + newUrl;
+
+            copyToClipboard(result)
+        }
+        else if(/https?:\/\/www.dlsite.com\/.+/.test(url)){
+          // 最悪どのページでもリンク貼れるのでは？
+          var linkUrl = url.replace(/\?.*$/, "")
+          var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+          linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
+          linkUrl = encodeURIComponent(linkUrl)
+
+          var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+          if(includeTitle) result = title + "\n" + result
+          copyToClipboard(result)
+        }
     });
+}
+
+// クリップボードにコピー
+function copyToClipboard(str){
+  var textarea = $("#clipboard");
+  textarea.text(str);
+  textarea.select();
+  document.execCommand("copy");
+
 }
 
 // 画像つきAタグを作成する
