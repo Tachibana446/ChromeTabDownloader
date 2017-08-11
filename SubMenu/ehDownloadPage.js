@@ -1,8 +1,8 @@
 $(() => {
     var src = $('#img').attr('src')
-    console.log('ダウンロード：\n' + src);
+    console.log('オープン：\n' + src);
     chrome.runtime.sendMessage({
-        type: 'eh_download',
+        type: 'eh_open_image',
         url: src
     })
 })
