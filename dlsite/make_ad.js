@@ -3,7 +3,7 @@ $(() => {
   var url = atag.attr('href')
   var title = atag.text().trim().replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
 
-  var result = getH2(title) + getAtag(url, title) + getChobit() + getAttr()
+  var result = getH2(title) + getAtag(url, title) + getChobit() + getAttr2()
 
   var textarea = $('<textarea class="myClicpBoard" rows="1" cols="80"></textarea>')
   $('body').prepend(textarea)
@@ -53,6 +53,94 @@ function getChobit() {
   }
 
   return ""
+}
+
+function getAttr2() {
+  var div = $('<div></div>')
+  var table = $('<table></table>')
+  div.append(table)
+  // サークル名
+  var _a = $('span.maker_name > a')
+  var _myA = $('<a target="_blank" href="' + getAdLink($(_a).attr('href')) + '">' + $(_a).text() + '</a>')
+  var _myTr = $('<tr><th>サークル</th><td></td></tr>')
+  $(_myTr).children('td').append(_myA)
+  table.append(_myTr)
+  // その他の情報
+  $('#work_outline > tbody > tr').each((i, tr) => {
+    var header = $(tr).children('th')
+    var myTr = $('<tr><th>' + $(header).text().trim() + '</th><td></td></tr>')
+
+    switch ($(header).text().trim()) {
+      case "年齢指定":
+      case "作品形式":
+      case "ファイル形式":
+      case "イベント":
+      case "ジャンル":
+        return 1;
+
+      default:
+        var data = $(tr).children('td')
+        var debug = data.text()
+        if ($(data).children('a').length) {
+          var myTd = $('<td></td>')
+
+          //if ($(data).children('a').length == 1) {
+
+          //} else {
+            // Aの数だけループ
+            $(data).children('a').each((j, a) => {
+              var url = $(a).attr('href').replace(/\?.*$/, "")
+              if (url.charAt(0) == '/') url = "http://www.dlsite.com" + url
+              var myA = $('<a target="_blank"></a>')
+              $(myA).attr('href', getAdLink(url))
+              $(myA).text($(a).text())
+              if (j != 0) $(myTr).children('td').append(' / ')
+              $(myTr).children('td').append(myA)
+            })
+            table.append(myTr)
+          //}
+        } else {
+          // Aがない時
+          myTr.children('td').text($(data).text())
+          table.append(myTr)
+        }
+    }
+  })
+  return '\n' + $(table).prop('outerHTML') + '<br>\n'
+}
+
+function getAdLink(url) {
+  var aid = "namekatei"
+  // サークルプロフィールページの時
+  if (/https?:\/\/www.dlsite.com\/.*?\/circle\/profile\/=\/maker_id\/.*/.test(url)) {
+    var linkUrl = url.replace(/\?.*$/, "")
+    var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+    linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
+    linkUrl = encodeURIComponent(linkUrl)
+
+    var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+    return result;
+  } else if (/(.*)work\/.*product_id\/(.*)/.test(url)) {
+    // 作品ページの時
+    var reg = /(.*)work\/.*product_id\/(.*)/;
+    var arr = reg.exec(url);
+    var top = arr[1];
+    var id = arr[2];
+    var newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
+
+    var result = newUrl;
+    return result
+  } else if (/https?:\/\/www.dlsite.com\/.+/.test(url)) {
+    // 最悪どのページでもリンク貼れるのでは？
+    var linkUrl = url.replace(/\?.*$/, "")
+    var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+    linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
+    linkUrl = encodeURIComponent(linkUrl)
+
+    var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+    return result
+  }
+
 }
 
 // 声優などの情報
