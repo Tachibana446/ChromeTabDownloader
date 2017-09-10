@@ -77,27 +77,44 @@ function getAttr2() {
       case "イベント":
       case "ジャンル":
         return 1;
+      case "その他":
+        // TODO:その他の項目は適宜編集する
+        var textArr = []
+        $(tr).find('a').each((j, a) => {
+          switch ($(a).text().trim()) {
+            case '音声あり':
+              break
+            case '体験版':
+              textArr.push('体験版あり')
+              break
+            default:
+              textArr.push($(a).text().trim())
+              break
+          }
+        })
+        if (textArr.length == 0) break
+        $(myTr).children('td').append(textArr.join('・'))
+        table.append(myTr)
+        break;
 
       default:
         var data = $(tr).children('td')
         var debug = data.text()
         if ($(data).children('a').length) {
-          var myTd = $('<td></td>')
-
           //if ($(data).children('a').length == 1) {
 
           //} else {
-            // Aの数だけループ
-            $(data).children('a').each((j, a) => {
-              var url = $(a).attr('href').replace(/\?.*$/, "")
-              if (url.charAt(0) == '/') url = "http://www.dlsite.com" + url
-              var myA = $('<a target="_blank"></a>')
-              $(myA).attr('href', getAdLink(url))
-              $(myA).text($(a).text())
-              if (j != 0) $(myTr).children('td').append(' / ')
-              $(myTr).children('td').append(myA)
-            })
-            table.append(myTr)
+          // Aの数だけループ
+          $(data).children('a').each((j, a) => {
+            var url = $(a).attr('href').replace(/\?.*$/, "")
+            if (url.charAt(0) == '/') url = "http://www.dlsite.com" + url
+            var myA = $('<a target="_blank"></a>')
+            $(myA).attr('href', getAdLink(url))
+            $(myA).text($(a).text())
+            if (j != 0) $(myTr).children('td').append(' / ')
+            $(myTr).children('td').append(myA)
+          })
+          table.append(myTr)
           //}
         } else {
           // Aがない時
