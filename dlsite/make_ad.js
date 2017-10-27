@@ -3,7 +3,7 @@ $(() => {
   var url = atag.attr('href')
   var title = atag.text().trim().replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "").replace(/DLsite専売/, "")
 
-  var result = getH2(title) + getAtag(url, title) + getChobit() + getAttr2()
+  var result = getH2(title) + getAtag(url, title) + getChobit() + getAttr2() + getCommentDiv()
 
   var textarea = $('<textarea class="myClicpBoard" rows="1" cols="80"></textarea>')
   $('body').prepend(textarea)
@@ -14,7 +14,7 @@ $(() => {
 })
 
 function getH2(title) {
-  return "<h2>" + title + '</h2><br>'
+  return "<h2>" + title + '</h2>'
 }
 
 // サムネ付きのAタグ作成
@@ -128,6 +128,11 @@ function getAttr2() {
     }
   })
   return '\n' + $(table).prop('outerHTML') + '<br>\n'
+}
+
+// コメント用のDiv要素を返す
+function getCommentDiv(){
+  return '\n\n<div class="work_comment">\n</div><br>\n'
 }
 
 function getAdLink(url) {
