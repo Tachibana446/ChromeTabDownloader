@@ -1,7 +1,7 @@
 $(() => {
   var atag = $('#work_name > a')
   var url = atag.attr('href')
-  var title = atag.text().trim().replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
+  var title = atag.text().trim().replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "").replace(/DLsite専売/, "")
 
   var result = getH2(title) + getAtag(url, title) + getChobit() + getAttr2()
 
@@ -48,7 +48,11 @@ function getChobit() {
   var iframe = $('#main_inner > div.work_article.work_story > div > iframe')
   if (iframe.length) {
     var url = iframe.attr('src').replace(/\?.*$/, "")
-    var result = '<iframe width="740" height="215" src="' + url + '" frameborder="0" allowfullscreen></iframe><br>'
+    var style = 'style="transform: scale(0.8) translate(-74px, 0);"'
+    var result = '<iframe width="740" height="215" src="' + url +
+      '" frameborder="0" allowfullscreen ' +
+      style + ' ></iframe><br>'
+
     return result
   }
 
