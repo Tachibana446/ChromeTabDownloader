@@ -189,7 +189,7 @@ function makeAdThumbLink(size = "s", aid = "namekatei") {
 // DLsite/pixivの作品タイトルのみをコピー
 function getTitleOnlyFromDlsite() {
   chrome.tabs.getSelected(null, (tab) => {
-    var title = tab.title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
+    var title = tab.title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book|同人|電子書籍|美少女ゲーム).*/, "").replace(/【\d+%OFF】/, "")
     title = title.replace(/\/「.*?」の.*?\[pixiv\]$/,'')
     copyToClipboard(title)
   })
