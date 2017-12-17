@@ -70,7 +70,18 @@ chrome.runtime.onMessage.addListener(
                     chrome.tabs.remove(selected.id)
                 })
                 break;
+            // 開いてるタブを返す
+            case "getTab":
+              chrome.tabs.query({
+                active: true,
+                currentWindow: true
+              },(tabs) => {
+                callback(tabs[0])
+              })
+              return true;
+              break;
             default:
+
         }
     }
 );

@@ -33,6 +33,14 @@
             "matches": ["*://cos-player.xyz/cosplayer/*"],
             "js": ["jquery.min.js", "ImageList/inject.js", "SiteExecute/cos-player.xyz.js"],
             "css": ["ImageList/inject.css"]
+        },
+        {
+            "matches" : ["*://ssl.dlsite.com/*/mypage/affiliate/sales/*"],
+            "js": ["jquery.min.js", "dlsite/show_afpage_title.js"]
+        },
+        {
+            "matches": ["*://ch.dlsite.com/matome/*"],
+            "js": ["dlsite/set_afpage_title.js"]
         }
     ]
 }
