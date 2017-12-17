@@ -339,11 +339,6 @@ $(function() {
 
   $('#makeChobits').click(() => injectMyScript('dlsite/make_ad.js'))
 
-  $('#visitLoader').click(() => {
-    chrome.tabs.create({
-      url: "./CM3D2loader/top.html"
-    })
-  })
   $('#otherMenu').click(() => chrome.tabs.create({
     url: "./SubMenu/index.html"
   }))
