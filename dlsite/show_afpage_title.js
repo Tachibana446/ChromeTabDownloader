@@ -1,23 +1,33 @@
 /// アフィリエイトの結果のページのURLにタイトルをつける
 $(() => {
-console.log("DL aff page title load");
+  load_af_page_title()
+  $('#default_tab_130 > li:nth-child(2)').on('click', () => load_af_page_title())
+})
 
-chrome.storage.sync.get('afpage_title',(value) =>{
-  var dictionary = value.afpage_title
-  if(dictionary == undefined) dictionary = {}
+function load_af_page_title() {
+  console.log("DL aff page title load");
 
-  $('#af_report_data > table.af_table > tbody > tr').each((i,tr) => {
+  var keys = [] // キーとなるURL
+  var tds = [] // リンクをそのURLに置換するTD
+  $('#af_report_data > table.af_table > tbody > tr').each((i, tr) => {
     var td = $(tr).children('td:eq(0)')
     var link = $(td).text()
     var link_bare = link.replace(/\?.*$/, '') // GETパラメータを抜いたもの
-    var page_title = ""
-    if(dictionary[link_bare] !== undefined){
-      page_title = dictionary[link_bare]
-    }
-    var html = '<a href="' + link + '" target="_blank">'
-      + link + '</a> &nbsp; ' + page_title
-    td.html(html)
+    keys.push(link_bare)
+    tds.push(td)
   })
-})
-
-})
+  chrome.storage.local.get(keys, (data) => {
+    for (var i = 0; i < tds.length; i++) {
+      var title = ""
+      if (data[keys[i]] !== undefined) {
+        var title = data[keys[i]].title
+      }
+      var html = `
+        <a href="${keys[i]}" target="_blank">
+          ${tds[i].text()}
+        </a> &nbsp; ${title}
+        `
+      tds[i].html(html)
+    }
+  })
+}

@@ -72,12 +72,17 @@ chrome.runtime.onMessage.addListener(
                 break;
             // 開いてるタブを返す
             case "getTab":
-              chrome.tabs.query({
-                active: true,
-                currentWindow: true
-              },(tabs) => {
-                callback(tabs[0])
-              })
+              if(sender.tab){
+                callback(sender.tab) // senderにタブ情報があればそれを返す
+              }else{
+                // なければアクティブなタブを返す
+                chrome.tabs.query({
+                  active: true,
+                  currentWindow: true
+                },(tabs) => {
+                  callback(tabs[0])
+                })
+              }
               return true;
               break;
             default:
