@@ -40,7 +40,7 @@
         },
         {
             "matches": ["*://ch.dlsite.com/matome/*"],
-            "js": ["dlsite/set_afpage_title.js"]
+            "js": ["jquery.min.js", "dlsite/set_afpage_title.js"]
         },
         {
             "matches": ["*://ch.dlsite.com/talk/*"],

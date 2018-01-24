@@ -1,16 +1,20 @@
 /// アフィリエイトの結果のページのURLにタイトルをつける
 $(() => {
   load_af_page_title()
-  $('#default_tab_130 > li:nth-child(2)').on('click', () => load_af_page_title())
+  setInterval(() => load_af_page_title(), 1000)
 })
 
 function load_af_page_title() {
-  console.log("DL aff page title load");
+  // console.log("DL aff page title load");
 
   var keys = [] // キーとなるURL
   var tds = [] // リンクをそのURLに置換するTD
   $('#af_report_data > table.af_table > tbody > tr').each((i, tr) => {
     var td = $(tr).children('td:eq(0)')
+    // この列がすでにリンクならスキップ
+    if (td.children('a')[0])
+      return true
+    // リンクテキストを取得
     var link = $(td).text()
     var link_bare = link.replace(/\?.*$/, '') // GETパラメータを抜いたもの
     keys.push(link_bare)
