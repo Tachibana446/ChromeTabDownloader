@@ -2,8 +2,8 @@
 console.log("load popup.js");
 
 function sleep(ms) {
-  var d1 = new Date().getTime();
-  var d2 = new Date().getTime();
+  let d1 = new Date().getTime();
+  let d2 = new Date().getTime();
   while (d2 < d1 + ms) {
     d2 = new Date().getTime();
   }
@@ -11,10 +11,10 @@ function sleep(ms) {
 
 // 文字列から拡張子を取得
 function getExtension(url) {
-  var ret;
+  let ret;
   if (!url) return ret;
-  var splits = url.split(".");
-  var len = splits.length;
+  let splits = url.split(".");
+  let len = splits.length;
   if (len == 0) return url;
   ret = splits[len - 1];
   return ret;
@@ -22,10 +22,10 @@ function getExtension(url) {
 
 // 文字列が画像拡張子かどうか判別
 function checkPicture(url) {
-  var exts = ["jpg", "jpeg", "png", "bmp", "gif",
+  let exts = ["jpg", "jpeg", "png", "bmp", "gif",
     "JPG", "JPEG", "PNG", "BMP", "GIF"
   ];
-  var ext = getExtension(url);
+  let ext = getExtension(url);
   if (exts.indexOf(ext) >= 0) {
     return true;
   } else {
@@ -36,22 +36,26 @@ function checkPicture(url) {
 // 現在のウィンドウの画像タブをすべて保存
 function downloadPictures(closeTab) {
   // tabsプロパティを含むオプション
-  var option = {
+  let option = {
     populate: true
   };
   chrome.windows.getCurrent(option, function(window) {
-    var removeTabs = [];
-    for (var tab of window.tabs) {
+    let removeTabs = [];
+    for (let tab of window.tabs) {
       // DEBUG
       console.table(tab);
-      if (!checkPicture(tab.url.replace(/\?.*$/, ''))) {
+      if (!checkPicture(tab.url.replace(/\?.*$/, '').replace(/:orig$/, ''))) {
         continue;
       }
       // 名前がかぶったら番号を振る
-      var params = {
+      let params = {
         url: tab.url,
         conflictAction: chrome.downloads.FilenameConflictAction.uniquify
       };
+      if(/:orig$/.test(tab.url)){
+        let file_title = tab.url.replace(/.*\//,'').replace(/:orig$/,'')
+        params.filename = file_title
+      }
       // DEBUG
       console.table(params);
       chrome.downloads.download(params, null);
@@ -85,22 +89,22 @@ function injectScript(tabId) {
 }
 
 function showMainPicture(option) {
-  var o = {
+  let o = {
     populate: true
   };
   chrome.tabs.getSelected(null, function(selectedTab) {
-    var selectedIndex = selectedTab.index;
+    let selectedIndex = selectedTab.index;
     console.log("selectedIndex:" + selectedIndex);
 
     chrome.windows.getCurrent(o, function(window) {
-      var closeTabIds = [];
-      for (var tab of window.tabs) {
+      let closeTabIds = [];
+      for (let tab of window.tabs) {
         // DEBUG
         console.log("" + tab.index + ":" + tab.title);
 
         if ((option == "left" && tab.index <= selectedIndex) ||
           (option == "right" && tab.index >= selectedIndex)) {
-          var id = tab.id;
+          let id = tab.id;
           injectScript(id);
         }
       }
@@ -110,39 +114,39 @@ function showMainPicture(option) {
 
 function makeAdLink(includeTitle, aid = "namekatei") {
   chrome.tabs.getSelected(null, function(tab) {
-    var url = tab.url;
-    var title = tab.title;
+    let url = tab.url;
+    let title = tab.title;
 
     // サークルプロフィールページの時
     if (/https?:\/\/www.dlsite.com\/.*?\/circle\/profile\/=\/maker_id\/.*/.test(url)) {
-      var linkUrl = url.replace(/\?.*$/, "")
-      var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+      let linkUrl = url.replace(/\?.*$/, "")
+      let joint = linkUrl.slice(-1) == '/' ? '' : '/'
       linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
       linkUrl = encodeURIComponent(linkUrl)
 
-      var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+      let result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
       if (includeTitle) result = title + "\n" + result
       copyToClipboard(result)
     } else if (/(.*)work\/.*product_id\/(.*)/.test(url)) {
       // 作品ページの時
-      var reg = /(.*)work\/.*product_id\/(.*)/;
-      var arr = reg.exec(url);
-      var top = arr[1];
-      var id = arr[2];
-      var newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
+      let reg = /(.*)work\/.*product_id\/(.*)/;
+      let arr = reg.exec(url);
+      let top = arr[1];
+      let id = arr[2];
+      let newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
 
-      var result = newUrl;
+      let result = newUrl;
       if (includeTitle) result = title + "\n" + newUrl;
 
       copyToClipboard(result)
     } else if (/https?:\/\/www.dlsite.com\/.+/.test(url)) {
       // 最悪どのページでもリンク貼れるのでは？
-      var linkUrl = url.replace(/\?.*$/, "")
-      var joint = linkUrl.slice(-1) == '/' ? '' : '/'
+      let linkUrl = url.replace(/\?.*$/, "")
+      let joint = linkUrl.slice(-1) == '/' ? '' : '/'
       linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
       linkUrl = encodeURIComponent(linkUrl)
 
-      var result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
+      let result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
       if (includeTitle) result = title + "\n" + result
       copyToClipboard(result)
     }
@@ -151,7 +155,7 @@ function makeAdLink(includeTitle, aid = "namekatei") {
 
 // クリップボードにコピー
 function copyToClipboard(str) {
-  var textarea = $("#clipboard");
+  let textarea = $("#clipboard");
   textarea.text(str);
   textarea.select();
   document.execCommand("copy");
@@ -161,25 +165,25 @@ function copyToClipboard(str) {
 // 画像つきAタグを作成する
 function makeAdThumbLink(size = "s", aid = "namekatei") {
   chrome.tabs.getSelected(null, function(tab) {
-    var url = tab.url;
-    var title = tab.title;
-    var titleWithoutSitename = title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
-    var resultArr = /www\.dlsite\.com\/(.*?)\/work\/.*product_id\/(.*)\.html/.exec(url)
+    let url = tab.url;
+    let title = tab.title;
+    let titleWithoutSitename = title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
+    let resultArr = /www\.dlsite\.com\/(.*?)\/work\/.*product_id\/(.*)\.html/.exec(url)
     // 売り場がmaniaxかbookかなど
-    var type = resultArr[1]
-    var workId = resultArr[2]
+    let type = resultArr[1]
+    let workId = resultArr[2]
     // 画像を大まかに分けているID　作品IDを1000区切りにしたもの
-    var resultArr2 = /(.*?)(\d+)/.exec(workId)
-    var aboutWorkId = (Math.floor(resultArr2[2] / 1000) + 1) * 1000 + ""
+    let resultArr2 = /(.*?)(\d+)/.exec(workId)
+    let aboutWorkId = (Math.floor(resultArr2[2] / 1000) + 1) * 1000 + ""
     if (aboutWorkId.length < 6) aboutWorkId = ('000000' + aboutWorkId).slice(-6)
 
-    var href = "http://www.dlsite.com/" + type + "/dlaf/=/link/work/aid/" + aid + "/id/" + workId + ".html"
-    var subImgSrc = type == "maniax" ? "doujin" : type == "books" ? "books" : "eee"
-    var imageSizeStr = size == "s" ? "mini" : size == "m" ? "sam" : "main"
-    var imgsrc = "//img.dlsite.jp/modpub/images2/work/" + subImgSrc + "/" + resultArr2[1] +
+    let href = "http://www.dlsite.com/" + type + "/dlaf/=/link/work/aid/" + aid + "/id/" + workId + ".html"
+    let subImgSrc = type == "maniax" ? "doujin" : type == "books" ? "books" : "eee"
+    let imageSizeStr = size == "s" ? "mini" : size == "m" ? "sam" : "main"
+    let imgsrc = "//img.dlsite.jp/modpub/images2/work/" + subImgSrc + "/" + resultArr2[1] +
       aboutWorkId + "/" + workId + "_img_" + imageSizeStr + ".jpg"
 
-    var aTagFull = "<a href=\"" + href + "\" target=\"_blank\"><img itemprop=\"image\" src=\"" + imgsrc + "\" alt=\"" +
+    let aTagFull = "<a href=\"" + href + "\" target=\"_blank\"><img itemprop=\"image\" src=\"" + imgsrc + "\" alt=\"" +
       titleWithoutSitename + "\" title=\"" + titleWithoutSitename + "\" border=\"0\" class=\"target_type\" /></a>"
     // Copy
     copyToClipboard(aTagFull)
@@ -189,15 +193,15 @@ function makeAdThumbLink(size = "s", aid = "namekatei") {
 // DLsite/pixivの作品タイトルのみをコピー
 function getTitleOnlyFromDlsite() {
   chrome.tabs.getSelected(null, (tab) => {
-    var title = tab.title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book|同人|電子書籍|美少女ゲーム).*/, "").replace(/【\d+%OFF】/, "")
-    title = title.replace(/\/「.*?」の.*?\[pixiv\]$/,'')
+    let title = tab.title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book|同人|電子書籍|美少女ゲーム).*/, "").replace(/【\d+%OFF】/, "")
+    title = title.replace(/\/「.*?」の.*?\[pixiv\]$/, '')
     copyToClipboard(title)
   })
 }
 
 function copyTitleAndUrl(mode) {
   chrome.tabs.getSelected(null, function(tab) {
-    var text = tab.title + "\n" + tab.url;
+    let text = tab.title + "\n" + tab.url;
     if (mode === "url") text = tab.url;
     else if (mode === "title") text = tab.title;
     copyToClipboard(text)
@@ -224,8 +228,8 @@ function separateTabs() {
   chrome.windows.create({}, function(window) {
     chrome.tabs.getSelected(function(current) {
       chrome.tabs.getAllInWindow(function(tabs) {
-        var rightTabIds = [];
-        var right = false;
+        let rightTabIds = [];
+        let right = false;
         for (tab of tabs) {
           if (tab.id == current.id) {
             right = true;
