@@ -44,7 +44,7 @@
         },
         {
             "matches": ["*://ch.dlsite.com/talk/*"],
-            "js":["jquery.min.js","dlsite/mute_talk.js"]
+            "js":["jquery.min.js", "dlsite/mute_talk.js"]
         }
     ]
 }

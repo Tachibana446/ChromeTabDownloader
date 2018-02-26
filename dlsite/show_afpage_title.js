@@ -1,11 +1,12 @@
 /// アフィリエイトの結果のページのURLにタイトルをつける
 $(() => {
+  console.log("DL aff page title load");
+
   load_af_page_title()
   setInterval(() => load_af_page_title(), 1000)
 })
 
 function load_af_page_title() {
-  // console.log("DL aff page title load");
 
   var keys = [] // キーとなるURL
   var tds = [] // リンクをそのURLに置換するTD
