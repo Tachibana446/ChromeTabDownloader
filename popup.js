@@ -168,7 +168,7 @@ function makeAdThumbLink(size = "s", aid = "namekatei") {
     let url = tab.url;
     let title = tab.title;
     let titleWithoutSitename = title.replace(/\s\[.*\]\s+\|\s+DLsite\s(Maniax|Book).*/, "").replace(/【\d+%OFF】/, "")
-    let resultArr = /www\.dlsite\.com\/(.*?)\/work\/.*product_id\/(.*)\.html/.exec(url)
+    let resultArr = /www\.dlsite\.com\/(.*?)\/work\/.*product_id\/(.*)(\.html|\/)/.exec(url)
     // 売り場がmaniaxかbookかなど
     let type = resultArr[1]
     let workId = resultArr[2]
