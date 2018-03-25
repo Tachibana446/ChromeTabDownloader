@@ -52,8 +52,8 @@ function downloadPictures(closeTab) {
         url: tab.url,
         conflictAction: chrome.downloads.FilenameConflictAction.uniquify
       };
-      if(/:orig$/.test(tab.url)){
-        let file_title = tab.url.replace(/.*\//,'').replace(/:orig$/,'')
+      if (/:orig$/.test(tab.url)) {
+        let file_title = tab.url.replace(/.*\//, '').replace(/:orig$/, '')
         params.filename = file_title
       }
       // DEBUG
@@ -112,10 +112,11 @@ function showMainPicture(option) {
   });
 }
 
-function makeAdLink(includeTitle, aid = "namekatei") {
+function makeAdLink(includeTitle, aid = "namekatei", tagged = false) {
   chrome.tabs.getSelected(null, function(tab) {
     let url = tab.url;
     let title = tab.title;
+    let result = ''
 
     // サークルプロフィールページの時
     if (/https?:\/\/www.dlsite.com\/.*?\/circle\/profile\/=\/maker_id\/.*/.test(url)) {
@@ -124,9 +125,7 @@ function makeAdLink(includeTitle, aid = "namekatei") {
       linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
       linkUrl = encodeURIComponent(linkUrl)
 
-      let result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
-      if (includeTitle) result = title + "\n" + result
-      copyToClipboard(result)
+      result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
     } else if (/(.*)work\/.*product_id\/(.*)/.test(url)) {
       // 作品ページの時
       let reg = /(.*)work\/.*product_id\/(.*)/;
@@ -135,10 +134,7 @@ function makeAdLink(includeTitle, aid = "namekatei") {
       let id = arr[2];
       let newUrl = top + "dlaf/=/link/work/aid/" + aid + "/id/" + id;
 
-      let result = newUrl;
-      if (includeTitle) result = title + "\n" + newUrl;
-
-      copyToClipboard(result)
+      result = newUrl;
     } else if (/https?:\/\/www.dlsite.com\/.+/.test(url)) {
       // 最悪どのページでもリンク貼れるのでは？
       let linkUrl = url.replace(/\?.*$/, "")
@@ -146,10 +142,16 @@ function makeAdLink(includeTitle, aid = "namekatei") {
       linkUrl += joint + '?medium=bnlink&source=user&program=text&utm_medium=banner&utm_campaign=bnlink&utm_content=text'
       linkUrl = encodeURIComponent(linkUrl)
 
-      let result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
-      if (includeTitle) result = title + "\n" + result
-      copyToClipboard(result)
+      result = 'http://www.dlsite.com/home/dlaf/=/aid/' + aid + '/url/' + linkUrl
     }
+
+    if (tagged)
+      result = `<a href="${result}">${title}</a>`
+    else if (includeTitle)
+      result = title + "\n" + result
+
+    copyToClipboard(result)
+    return result
   });
 }
 
@@ -340,6 +342,8 @@ $(function() {
     makeAdThumbLink("l")
   })
   $('#makeTitleOnly').click(() => getTitleOnlyFromDlsite())
+
+  $('#makeAdAtag').click(() => makeAdLink(false, 'namekatei', true))
 
   $('#makeChobits').click(() => injectMyScript('dlsite/make_ad.js'))
 
