@@ -5,20 +5,25 @@ var mute_list = [
 $(() => {
   var deleted_response = []
 
-  $("#root > div.vertical-container > .main-container > .main-section.type-talk > div.section-body > div.response-items > div.response-item")
+  $("#root div.response-item")
     .each((i, item) => {
       var is_target_res = false
       // 削除済みに対するレスも削除
       $(item).find('div.response-body a').each((j, anchor) => {
-        var target_id = $(anchor).text().match(/\d+/)[0]
-        if (deleted_response.indexOf(target_id) > -1) {
-          is_target_res = true
-          return false
+        let match = $(anchor).text().match(/>>(\d+)/)
+        if (match && match[1]) {
+          var target_id = match[1]
+          if (deleted_response.indexOf(target_id) > -1) {
+            is_target_res = true
+            return false
+          }
         }
       })
       // 対象ユーザーも削除
       var username = $(item).find('a.user')
-      var id = $(username).attr('href').match(/profile\/(\d+)/)[1]
+      let temp = $(username).attr('href').match(/profile\/(\d+)/)
+      let id
+      if(temp) id = temp[1]
 
       if ((!id || mute_list.indexOf(id) == -1) && !is_target_res) {
         return true
